@@ -17,8 +17,8 @@ public class Resteasy3Provider implements ResteasyProvider {
     public void pushDefaultContextObject(Class type, Object instance) {
         ResteasyProviderFactory.getInstance();
         ResteasyProviderFactory.getContextData(Dispatcher.class)
-                .getDefaultContextObjects()
-                .put(type, instance);
+            .getDefaultContextObjects()
+            .put(type, instance);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

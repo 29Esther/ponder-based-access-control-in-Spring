@@ -34,7 +34,9 @@ public class KeycloakServerProperties {
     }
 
     public static class AdminUser {
+
         String username = "admin";
+
         String password = "admin";
 
         public String getUsername() {

@@ -22,9 +22,10 @@ public class EmbeddedKeycloakApplication extends KeycloakApplication {
     protected void loadConfig() {
         JsonConfigProviderFactory factory = new RegularJsonConfigProviderFactory();
         Config.init(factory.create()
-                .orElseThrow(() -> new NoSuchElementException("No value present")));
+            .orElseThrow(() -> new NoSuchElementException("No value present")));
     }
     public EmbeddedKeycloakApplication() {
+        super();
         createMasterRealmAdminUser();
         createEcs235Realm();
     }
@@ -51,7 +52,7 @@ public class EmbeddedKeycloakApplication extends KeycloakApplication {
             RealmManager manager = new RealmManager(session);
             Resource ecs235RealmImportFile = new ClassPathResource(
                     keycloakServerProperties.getRealmImportFile());
-            manager.importRealm(JsonSerialization.readValue(ecs235RealmImportFile.getInputStream(),
+            manager.importRealm(JsonSerialization.readValue(ecs235RealmImportFile.getInputStream(), 
                     RealmRepresentation.class));
             session.getTransactionManager().commit();
         } catch (Exception ex) {
