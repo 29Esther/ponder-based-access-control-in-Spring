@@ -11,6 +11,7 @@
     <modules>
         <module>jwt-auth-server</module>
         <module>jwt-resource-server</module>
+        <module>ponder-library</module>
     </modules>
 
 </project>
