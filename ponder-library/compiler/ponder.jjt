@@ -1,0 +1,179 @@
+options {
+  MULTI=true;
+  KEEP_LINE_COLUMN = false;
+}
+
+PARSER_BEGIN(Ponder)
+
+/**
+ * An Arithmetic Grammar.
+ */
+public class Ponder {
+
+  /** Main entry point. */
+  public static void main(String args[]) {
+    System.out.println("Reading from standard input...");
+    Ponder t = new Ponder(System.in);
+    try {
+      SimpleNode n = t.Start();
+      n.dump("");
+      System.out.println("Thank you.");
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(Ponder)
+
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+TOKEN :
+{
+  < INSTANCE: "inst">
+| < AUTHPlUS: "auth+">
+| < AUTHMINUS: "auth-">
+| < SUBJECT: "subject">
+| < TARGET: "target">
+| < ACTION: "action">
+| < WHEN: "when">
+| < LCURLYBRACE: "{" >
+| < RCURLYBRACE: "}" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < ELSE: "else" >
+| < FOR: "for" >
+| < IF: "if" >
+| < TYPE: "<"(<STRING>)+">">
+| < DOMAIN: "/"(<STRING>)*("/" <STRING>)*>
+| < ACTIONITEM: ((<STRING>)+("."(<STRING>)+)*"()")>
+| < STRING : (["_"]|["a"-"z"]|["A"-"Z"])((["0"-"9"])*|(["a"-"z"])*|(["A"-"Z"])*)+>
+}
+
+/** Main production. */
+SimpleNode Start() : {}
+{
+  AuthStatement()
+  <EOF>
+  { return jjtThis; }
+}
+
+/** auth policy */
+
+void PolicyName():
+{}
+{
+    <STRING>
+}
+
+void DomainScopeExpression():
+{
+    Token t;
+}
+{
+   t = <DOMAIN>
+   {
+     jjtThis.setName(t.image);
+   }
+}
+
+void ActionItem():
+{
+    Token t;
+}
+{
+  t = <ACTIONITEM>
+  {
+    jjtThis.setName(t.image);
+  }
+}
+
+void ActionList():
+{}
+{
+    (ActionItem())("," ActionItem() )*
+}
+
+void ConstraintExpression():
+{}
+{
+    <STRING>
+}
+
+void Instance():
+{}
+{
+    <INSTANCE>
+}
+
+void AuthPlus():
+{}
+{
+    <AUTHPlUS>
+}
+
+void AuthMinus():
+{}
+{
+    <AUTHMINUS>
+}
+
+void Type():
+{
+    Token t;
+}
+{
+   t = <TYPE>
+   {
+     jjtThis.setName(t.image);
+   }
+}
+
+void Subject():
+{}
+{
+    "subject" [Type()] DomainScopeExpression() ";"
+}
+
+void Target():{}
+{
+    "target" [Type()] DomainScopeExpression() ";"
+}
+
+void Action():{}
+{
+    "action" ActionList() ";"
+}
+
+void When():{}
+{
+    "when" ConstraintExpression() ";"
+}
+
+void PolicyContent():
+{}
+{
+        Subject()
+        Target()
+        Action()
+        [ When() ]
+}
+
+void AuthStatement():
+{}
+{
+    Instance() ( AuthPlus() | AuthMinus() ) PolicyName() "{"
+        PolicyContent()
+    "}"
+}
