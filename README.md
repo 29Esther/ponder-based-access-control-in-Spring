@@ -1,5 +1,5 @@
 # A quarter project
-Spring Boot + Spring Security + Keycloak
+Spring Boot + Spring Security + Ponder + Keycloak
 
 ### Components
 1. The OAuth2 Authorization Server

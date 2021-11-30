@@ -20,6 +20,7 @@ import java.util.Collection;
 @Component
 @AllArgsConstructor
 public class PonderAspect {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private DefaultService defaultService;
@@ -47,7 +48,6 @@ public class PonderAspect {
                     jwt.getSubject(), jwt.getClaimAsString("email"), Arrays.toString(a.stream().toArray()));
         }
         defaultService.checkPermission(methodName, a);
-//        throw new RuntimeException("wewew");
     }
 
 }
