@@ -11,7 +11,6 @@ class ASTDomainScopeExpression extends SimpleNode {
   public ASTDomainScopeExpression(Ponder p, int id) {
     super(p, id);
   }
-
   private String name;
 
   public void setName(String n) {
@@ -19,7 +18,7 @@ class ASTDomainScopeExpression extends SimpleNode {
   }
 
   public String toString() {
-    return "Domain: " + name;
+    return "Domain:" + name;
   }
 }
 /* JavaCC - OriginalChecksum=00d89d113d23106184a8d9bd5d04013f (do not edit this line) */
