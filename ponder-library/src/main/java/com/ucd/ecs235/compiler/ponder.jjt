@@ -1,0 +1,297 @@
+options {
+  MULTI=true;
+  KEEP_LINE_COLUMN = false;
+}
+
+PARSER_BEGIN(Ponder)
+
+/**
+ * An Arithmetic Grammar.
+ */
+import java.io.*;
+public class Ponder {
+
+  /** Main entry point. */
+  public static void main(String args[]) throws FileNotFoundException, UnsupportedEncodingException{
+    System.out.println("Reading from config file...");
+          Reader reader = new InputStreamReader(new FileInputStream("policies.txt"), "UTF-8");
+    //    Ponder t = new Ponder(System.in);
+          Ponder t = new Ponder(reader);
+    try {
+      SimpleNode n = t.Start();
+      n.dump("");
+//      ArrayList<ActionFilter> actionFilters = SimpleNode.afList;
+//      ArrayList<AuthPolicy> authPolicies = SimpleNode.apList;
+//      ArrayList<RefrainPolicy> refrainPolicies = SimpleNode.rpList;
+//      System.out.println("AuthPolicy: "+authPolicies.size()+"; Action Filter: "+actionFilters.size() + "; Refrain Policy: "+refrainPolicies.size());
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      //e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(Ponder)
+
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+TOKEN :
+{
+  < INSTANCE: "inst">
+| < AUTHPlUS: "auth+">
+| < AUTHMINUS: "auth-">
+| < SUBJECT: "subject">
+| < TARGET: "target">
+| < ACTION: "action">
+| < WHEN: "when">
+| < LCURLYBRACE: "{" >
+| < RCURLYBRACE: "}" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < ELSE: "else" >
+| < FOR: "for" >
+| < IF: "if" >
+| < IN: "in">
+| < OUT: "out">
+| <RESULT: "result">
+| <REFRAIN: "refrain">
+| < TYPE: "<"(<STRING>)+">">
+| < DOMAIN: ("/"(<STRING>)*("/" <STRING>)*)(("+"|"-")"/"(<STRING>)*("/" <STRING>)*)*>
+| < ACTIONITEM: ((<STRING>)+("."(<STRING>)+)*"()")>
+| < STRING: (["_"]|["a"-"z"]|["A"-"Z"])((["0"-"9"])*|(["a"-"z"])*|(["A"-"Z"])*)+>
+| < PARAMETER: (["0"-"9"])+|"\""((["a"-"z"])*|(["A"-"Z"])*|(["0"-"9"])*)+"\"">
+}
+
+/** Main production. */
+SimpleNode Start() : {}
+{
+  (PolicyStatement())*
+  <EOF>
+  { return jjtThis; }
+}
+
+/** auth policy */
+
+void PolicyName():
+{
+    Token t;
+}
+{
+    t = <STRING>
+    {
+        jjtThis.setName(t.image);
+    }
+}
+
+void DomainScopeExpression():
+{
+    Token t;
+}
+{
+   t = <DOMAIN>
+   {
+     jjtThis.setName(t.image);
+   }
+}
+
+void ActionItem():
+{
+    Token t;
+}
+{
+  t = <ACTIONITEM>
+  {
+    jjtThis.setName(t.image);
+  }
+}
+
+void ActionList():
+{}
+{
+    (ActionItem())("," ActionItem() )*
+}
+
+void ConstraintExpression():
+{}
+{
+    <STRING>
+}
+
+void Instance():
+{}
+{
+    <INSTANCE>
+}
+
+void AuthPlus():
+{}
+{
+    <AUTHPlUS>
+}
+
+void AuthMinus():
+{}
+{
+    <AUTHMINUS>
+}
+
+void Type():
+{
+    Token t;
+}
+{
+   t = <TYPE>
+   {
+     jjtThis.setName(t.image);
+   }
+}
+
+void Subject():
+{}
+{
+    "subject" [Type()] DomainScopeExpression() ";"
+}
+
+void Target():{}
+{
+    "target" [Type()] DomainScopeExpression() ";"
+}
+
+void Action():{}
+{
+    "action" ActionList() ";"
+}
+
+void When():{}
+{
+    "when" ConstraintExpression() ";"
+}
+
+void AuthPlusPolicyContent():
+{}
+{
+    AuthPlus() PolicyName() "{"
+        Subject()
+        Target()
+        "action" (ActionList()";"|
+        ActionFilter())
+    "}"
+}
+
+void AuthMinusPolicyContent():
+{}
+{
+    AuthMinus() PolicyName() "{"
+        Subject()
+        Target()
+        Action()
+        [ When() ]
+    "}"
+}
+
+void AuthPolicy():
+{}
+{
+    AuthPlusPolicyContent()| AuthMinusPolicyContent()
+}
+
+void ParameterName():
+{
+    Token t;
+}
+{
+    t = <STRING>
+    {
+        jjThis.setName(t.image);
+    }
+}
+
+void ParameterValue():
+{
+    Token t;
+}
+{
+    t = <PARAMETER>
+    {
+        jjThis.setName(t.image);
+    }
+}
+
+void ActionIn():
+{}
+{
+    (<IN> ParameterName() "=" ParameterValue()";")+
+}
+
+void ActionOut():
+{}
+{
+   (<OUT> ParameterName() "="ParameterValue()";")+
+}
+
+void ActionResult():
+{}
+{
+    <RESULT>"="ParameterValue()";"
+}
+
+void ActionName():
+{
+    Token t;
+}
+{
+    t=<STRING>"("<STRING>(","<STRING>)*")"
+    {
+        jjtThis.setName(t.image);
+    }
+}
+
+void ActionCondition():
+{}
+{
+    <IF> "("ActionItem()")"
+}
+
+void ActionFilter():
+{}
+{
+    ActionName()
+    "{" ActionIn() "}"
+    [ActionCondition()"{"
+        ActionIn()
+        [ActionOut()]
+        [ActionResult()]
+    "}"]
+}
+
+void Refrain():
+{}
+{
+    <REFRAIN>
+}
+
+void RefrainPolicy():
+{}
+{
+    Refrain() PolicyName() "{"
+    Subject()
+    Target()
+    <ACTION> ActionItem()";"
+    "}"
+}
+
+void PolicyStatement():
+{}
+{
+    Instance() (RefrainPolicy()|AuthPolicy())
+}

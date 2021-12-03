@@ -11,6 +11,14 @@ class ASTPolicyName extends SimpleNode {
   public ASTPolicyName(Ponder p, int id) {
     super(p, id);
   }
+  private String name;
 
+  public void setName(String n) {
+    name = n;
+  }
+
+  public String toString() {
+    return "PolicyName:" + name;
+  }
 }
 /* JavaCC - OriginalChecksum=d5366af8273f068d14c995260f0c187d (do not edit this line) */

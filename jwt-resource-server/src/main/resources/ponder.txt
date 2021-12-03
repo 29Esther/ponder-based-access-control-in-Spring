@@ -1,0 +1,5 @@
+inst auth+ switchPolicyOps {
+    subject /NetworkAdmin;
+    target <PolicyT> /Nregion/switches;
+    action read(), write();
+}

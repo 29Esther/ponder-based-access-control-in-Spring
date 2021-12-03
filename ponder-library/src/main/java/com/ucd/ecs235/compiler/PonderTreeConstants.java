@@ -17,8 +17,20 @@ public interface PonderTreeConstants
   public int JJTTARGET = 11;
   public int JJTACTION = 12;
   public int JJTWHEN = 13;
-  public int JJTPOLICYCONTENT = 14;
-  public int JJTAUTHSTATEMENT = 15;
+  public int JJTAUTHPLUSPOLICYCONTENT = 14;
+  public int JJTAUTHMINUSPOLICYCONTENT = 15;
+  public int JJTAUTHPOLICY = 16;
+  public int JJTPARAMETERNAME = 17;
+  public int JJTPARAMETERVALUE = 18;
+  public int JJTACTIONIN = 19;
+  public int JJTACTIONOUT = 20;
+  public int JJTACTIONRESULT = 21;
+  public int JJTACTIONNAME = 22;
+  public int JJTACTIONCONDITION = 23;
+  public int JJTACTIONFILTER = 24;
+  public int JJTREFRAIN = 25;
+  public int JJTREFRAINPOLICY = 26;
+  public int JJTPOLICYSTATEMENT = 27;
 
 
   public String[] jjtNodeName = {
@@ -36,8 +48,20 @@ public interface PonderTreeConstants
     "Target",
     "Action",
     "When",
-    "PolicyContent",
-    "AuthStatement",
+    "AuthPlusPolicyContent",
+    "AuthMinusPolicyContent",
+    "AuthPolicy",
+    "ParameterName",
+    "ParameterValue",
+    "ActionIn",
+    "ActionOut",
+    "ActionResult",
+    "ActionName",
+    "ActionCondition",
+    "ActionFilter",
+    "Refrain",
+    "RefrainPolicy",
+    "PolicyStatement",
   };
 }
-/* JavaCC - OriginalChecksum=f0f58acabcddb2d11af0e1855f30c523 (do not edit this line) */
+/* JavaCC - OriginalChecksum=d55d7553a590bcca677146783910e5ec (do not edit this line) */
