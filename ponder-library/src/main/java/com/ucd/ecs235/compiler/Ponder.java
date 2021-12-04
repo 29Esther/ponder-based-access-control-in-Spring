@@ -7,6 +7,10 @@ package com.ucd.ecs235.compiler;/* Ponder.java */
 import com.ucd.ecs235.dto.ActionFilter;
 import com.ucd.ecs235.dto.AuthPolicy;
 import com.ucd.ecs235.dto.RefrainPolicy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -171,11 +175,13 @@ public class Ponder/*@bgen(jjtree)*/implements PonderTreeConstants, PonderConsta
         }
     }
 
-  public static void compile() throws FileNotFoundException, UnsupportedEncodingException {
+  public static void compile(String fileName) throws IOException {
         System.out.println("Reading from config file...");
-        Reader reader = new InputStreamReader(new FileInputStream("policies.txt"), "UTF-8");
-        //    Ponder t = new Ponder(System.in);
-        Ponder t = new Ponder(reader);
+        Resource resource = new ClassPathResource(fileName);
+        InputStream input = resource.getInputStream();
+
+//            Ponder t = new Ponder(System.in);
+        Ponder t = new Ponder(input);
         try {
             SimpleNode n = t.Start();
             n.dump("");

@@ -1,12 +1,16 @@
 package com.ucd.ecs235.security;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ucd.ecs235.exception.UnauthorizedException;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,24 +19,33 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Aspect
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PonderAspect {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private DefaultService defaultService;
+    private final DefaultService defaultService;
+
+    private final ObjectMapper objectMapper;
+
+    @Value("${spring.security.oauth2.resourceserver.jwt.client-id}")
+    private String clientId;
 
     @Pointcut("within(@EnablePonderCheck *)")
     public void PonderCheckClassMethods() {
-    };
+    }
 
     @Before("PonderCheckClassMethods()")
-    public void logPonderCheckClassMethods(JoinPoint jp) {
+    public void logPonderCheckClassMethods(JoinPoint jp) throws JsonProcessingException {
         String methodName = jp.getSignature().getName();
-        logger.info("Before " + methodName);
+        String[] classPath = jp.getSignature().getDeclaringTypeName().split("\\.");
+        String className = classPath[classPath.length - 1];
+        logger.info("Before " + methodName + "in " + className);
 
         logger.debug("enter PonderMethodInterceptor");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,13 +54,18 @@ public class PonderAspect {
             throw new RuntimeException("Something went wrong; authentication is not provided.");
         }
         Collection<? extends GrantedAuthority> a = authentication.getAuthorities();
-        if (authentication.getPrincipal() instanceof Jwt) {
-            Jwt jwt = (Jwt) authentication.getPrincipal();
-            jwt.getClaims();
-            logger.info("You are [{}] with e-mail address [{}].\n roles: [{}]",
-                    jwt.getSubject(), jwt.getClaimAsString("email"), Arrays.toString(a.stream().toArray()));
+        if (!(authentication.getPrincipal() instanceof Jwt)) {
+            throw new UnauthorizedException();
         }
-        defaultService.checkPermission(methodName, a);
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        Map<String, Map<String, List<String>>> map = objectMapper.readValue(jwt.getClaimAsString("resource_access"), Map.class);
+        List<String> roles = map.get(clientId).get("roles");
+        logger.info("You are [{}] with e-mail address [{}].\n roles: [{}]",
+                jwt.getSubject(), jwt.getClaimAsString("email"), Arrays.toString(roles.stream().toArray()));
+        if (!defaultService.checkPermission(className, methodName, roles)) {
+            throw new UnauthorizedException();
+        }
+        ;
     }
 
 }
