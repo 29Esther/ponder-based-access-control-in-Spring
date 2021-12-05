@@ -154,15 +154,3 @@ Start
       ParameterValue:3
       ParameterName:Priority
       ParameterValue:1
-Authorization Map: 
-{CourseRegistrationService#_#createCourse: [admin]}
-{UserEventHandler#_#modify: [admin]}
-{CourseRegistrationService#_#updateCourse: [admin]}
-{CourseRegistrationController#_#createCourseRegistration: [student]}
-{CourseRegistrationService#_#updateGrade: [lec,ta]}
-{CourseRegistrationService#_#deleteCourseRegistration: [student]}
-{CourseRegistrationService#_#deleteCourse: [admin]}
-{CourseRegistrationController#_#deleteCourseRegistration: [student]}
-{CourseRegistrationService#_#createCourseRegistration: [student]}
-Refrain Map: 
-{CourseRegistrationService#_#createCourseRegistration: [guest]}

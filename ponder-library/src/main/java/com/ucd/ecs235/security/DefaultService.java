@@ -17,7 +17,7 @@ import java.util.Map;
 public class DefaultService {
 
     Map<String, List<String>> functionToScopeMap = new HashMap<>();
-    Map<String, List<String>> reftainFunctionToScopeMap = new HashMap<>();
+    Map<String, List<String>> refrainFunctionToScopeMap = new HashMap<>();
 
     @Value("${ponder.config.file.name}")
     String fileName;
@@ -42,7 +42,7 @@ public class DefaultService {
 
     public void generateAccessControlMap() {
         functionToScopeMap.clear();
-        reftainFunctionToScopeMap.clear();
+        refrainFunctionToScopeMap.clear();
         List<AuthPolicy> authPolicies = Ponder.getAuthPolicies();
         List<ActionFilter> actionFilters = Ponder.getActionFilters();
         List<RefrainPolicy> refrainPolicies = Ponder.getRefrainPolicies();
@@ -100,45 +100,45 @@ public class DefaultService {
             if (targetType.equals("Class")) {
                 String key = targetDomain + "#_#" + action;
                 if (subjectType.equals("Authentication")) {
-                    if (reftainFunctionToScopeMap.containsKey(key)) {
-                        reftainFunctionToScopeMap.get(key).add(subjectDomain);
+                    if (refrainFunctionToScopeMap.containsKey(key)) {
+                        refrainFunctionToScopeMap.get(key).add(subjectDomain);
                     } else {
                         ArrayList<String> subjects = new ArrayList<>();
                         subjects.add(subjectDomain);
-                        reftainFunctionToScopeMap.put(key, subjects);
+                        refrainFunctionToScopeMap.put(key, subjects);
                     }
                 }
             }
         });
     }
 
-    public void outputMap(){
+    public void outputMap() {
         try {
             OutputStream fop = new FileOutputStream(outputFileName, true);
             OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
             writer.append("Authorization Map: \n");
-            for(String key:functionToScopeMap.keySet()){
-                writer.append("{"+key+": ");
+            for (String key : functionToScopeMap.keySet()) {
+                writer.append("{" + key + ": ");
                 List<String> list = functionToScopeMap.get(key);
                 writer.append("[");
-                for (String scope: list) {
-                    if(list.indexOf(scope)==list.size()-1){
+                for (String scope : list) {
+                    if (list.indexOf(scope) == list.size() - 1) {
                         writer.append(scope);
-                    }else {
+                    } else {
                         writer.append(scope + ",");
                     }
                 }
                 writer.append("]}\n");
             }
             writer.append("Refrain Map: \n");
-            for(String key:reftainFunctionToScopeMap.keySet()){
-                writer.append("{"+key+": ");
-                List<String> list = reftainFunctionToScopeMap.get(key);
+            for (String key : refrainFunctionToScopeMap.keySet()) {
+                writer.append("{" + key + ": ");
+                List<String> list = refrainFunctionToScopeMap.get(key);
                 writer.append("[");
-                for (String scope: list) {
-                    if(list.indexOf(scope)==list.size()-1){
+                for (String scope : list) {
+                    if (list.indexOf(scope) == list.size() - 1) {
                         writer.append(scope);
-                    }else {
+                    } else {
                         writer.append(scope + ",");
                     }
                 }
@@ -154,6 +154,7 @@ public class DefaultService {
     public void clearTheMap() {
         loaded = false;
         functionToScopeMap.clear();
+        refrainFunctionToScopeMap.clear();
     }
 
     public boolean checkPermission(String className, String targetAction, List<String> roles) {
@@ -168,12 +169,8 @@ public class DefaultService {
         }
 
         key += "#_#" + targetAction;
-        List<String> refrainList = reftainFunctionToScopeMap.get(key);
-        if(roles.stream().anyMatch(s -> refrainList.contains(s))){
-            return false;
-        }
-
-        if (!functionToScopeMap.containsKey(key)) {
+        List<String> refrainList = refrainFunctionToScopeMap.getOrDefault(key, new ArrayList<>());
+        if (roles.stream().anyMatch(s -> refrainList.contains(s)) || !functionToScopeMap.containsKey(key)) {
             return false;
         }
 
