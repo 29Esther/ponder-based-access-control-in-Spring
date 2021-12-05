@@ -10,17 +10,16 @@ import com.ucd.ecs235.client.exception.ApiServiceException;
 import com.ucd.ecs235.client.repo.CourseRegistrationRepo;
 import com.ucd.ecs235.client.repo.CourseRepo;
 import com.ucd.ecs235.client.repo.UserRepo;
-import com.ucd.ecs235.security.EnablePonderCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@EnablePonderCheck
 public class CourseRegistrationService {
 
     private final CourseRegistrationRepo crRepo;
@@ -28,6 +27,7 @@ public class CourseRegistrationService {
     private final UserRepo userRepo;
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Course createCourse(CourseCommand courseCommand) {
         User lecturer = userRepo.findById(courseCommand.getLecturerId()).orElseThrow(() ->
                 new ApiServiceException(HttpStatus.NOT_FOUND, "404-2", "cannot find lecturer"));
@@ -37,6 +37,7 @@ public class CourseRegistrationService {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Course updateCourse(Long id, CourseCommand courseCommand) {
         Course course = courseRepo.findById(id).orElseThrow(() ->
                 new ApiServiceException(HttpStatus.NOT_FOUND, "404-1", "cannot find course"));
@@ -49,11 +50,13 @@ public class CourseRegistrationService {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void deleteCourse(Long id) {
         courseRepo.deleteById(id);
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT')")
     public CourseRegistration createCourseRegistration(CourseRegistrationCommand crCommand) {
         User student = userRepo.findById(crCommand.getStudentId()).orElseThrow(() ->
                 new ApiServiceException(HttpStatus.NOT_FOUND, "404-2", "cannot find student with id"));
@@ -67,6 +70,7 @@ public class CourseRegistrationService {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_TA', 'ROLE_LEC')")
     public CourseRegistration updateGrade(Long studentId, Long courseId, GradeCommand gradeCommand) {
         CourseRegistration cr = crRepo.findByStudentIdAndCourseId(studentId, courseId);
         if (cr == null) {
@@ -77,6 +81,7 @@ public class CourseRegistrationService {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT')")
     public void deleteCourseRegistration(Long id) {
         crRepo.deleteById(id);
     }
