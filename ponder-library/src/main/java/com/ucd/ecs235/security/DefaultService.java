@@ -7,9 +7,7 @@ import com.ucd.ecs235.dto.RefrainPolicy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +17,11 @@ import java.util.Map;
 public class DefaultService {
 
     Map<String, List<String>> functionToScopeMap = new HashMap<>();
+    Map<String, List<String>> reftainFunctionToScopeMap = new HashMap<>();
 
     @Value("${ponder.config.file.name}")
     String fileName;
+    String outputFileName = "./output.txt";
 
     public final static String ALL = "*";
 
@@ -37,10 +37,12 @@ public class DefaultService {
             e.printStackTrace();
         }
         generateAccessControlMap();
+        outputMap();
     }
 
     public void generateAccessControlMap() {
         functionToScopeMap.clear();
+        reftainFunctionToScopeMap.clear();
         List<AuthPolicy> authPolicies = Ponder.getAuthPolicies();
         List<ActionFilter> actionFilters = Ponder.getActionFilters();
         List<RefrainPolicy> refrainPolicies = Ponder.getRefrainPolicies();
@@ -98,14 +100,55 @@ public class DefaultService {
             if (targetType.equals("Class")) {
                 String key = targetDomain + "#_#" + action;
                 if (subjectType.equals("Authentication")) {
-                    if (functionToScopeMap.containsKey(key)) {
-                        if (functionToScopeMap.get(key).contains(subjectDomain)) {
-                            functionToScopeMap.get(key).remove(subjectDomain);
-                        }
+                    if (reftainFunctionToScopeMap.containsKey(key)) {
+                        reftainFunctionToScopeMap.get(key).add(subjectDomain);
+                    } else {
+                        ArrayList<String> subjects = new ArrayList<>();
+                        subjects.add(subjectDomain);
+                        reftainFunctionToScopeMap.put(key, subjects);
                     }
                 }
             }
         });
+    }
+
+    public void outputMap(){
+        try {
+            OutputStream fop = new FileOutputStream(outputFileName, true);
+            OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
+            writer.append("Authorization Map: \n");
+            for(String key:functionToScopeMap.keySet()){
+                writer.append("{"+key+": ");
+                List<String> list = functionToScopeMap.get(key);
+                writer.append("[");
+                for (String scope: list) {
+                    if(list.indexOf(scope)==list.size()-1){
+                        writer.append(scope);
+                    }else {
+                        writer.append(scope + ",");
+                    }
+                }
+                writer.append("]}\n");
+            }
+            writer.append("Refrain Map: \n");
+            for(String key:reftainFunctionToScopeMap.keySet()){
+                writer.append("{"+key+": ");
+                List<String> list = reftainFunctionToScopeMap.get(key);
+                writer.append("[");
+                for (String scope: list) {
+                    if(list.indexOf(scope)==list.size()-1){
+                        writer.append(scope);
+                    }else {
+                        writer.append(scope + ",");
+                    }
+                }
+                writer.append("]}\n");
+            }
+            writer.close();
+            fop.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clearTheMap() {
@@ -125,11 +168,16 @@ public class DefaultService {
         }
 
         key += "#_#" + targetAction;
+        List<String> refrainList = reftainFunctionToScopeMap.get(key);
+        if(roles.stream().anyMatch(s -> refrainList.contains(s))){
+            return false;
+        }
+
         if (!functionToScopeMap.containsKey(key)) {
             return false;
         }
 
-        List<String> list = functionToScopeMap.get(key);
-        return roles.stream().anyMatch(s -> list.contains(s));
+        List<String> authList = functionToScopeMap.get(key);
+        return roles.stream().anyMatch(s -> authList.contains(s));
     }
 }

@@ -4,6 +4,7 @@ import com.ucd.ecs235.dto.ActionFilter;
 import com.ucd.ecs235.dto.AuthPolicy;
 import com.ucd.ecs235.dto.RefrainPolicy;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,8 +84,17 @@ class SimpleNode implements Node {
   /* Override this method if you want to customize how the node dumps
      out its children. */
 
-  public void dump(String prefix) {
+  public void dump(String prefix, String outputFileName) {
     //System.out.println(toString(prefix));
+    try{
+      OutputStream fop = new FileOutputStream(outputFileName, true);
+      OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
+      writer.append(toString(prefix)+"\n");
+      writer.close();
+      fop.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     if(toString().equals("AuthPlus")){
       apList.get(apIdx).setAuthPlus(true);
     }
@@ -207,7 +217,7 @@ class SimpleNode implements Node {
       for (int i = 0; i < children.length; ++i) {
         SimpleNode n = (SimpleNode)children[i];
         if (n != null) {
-          n.dump(prefix + " ");
+          n.dump(prefix + " ", outputFileName);
         }
       }
     }

@@ -1,7 +1,7 @@
 inst refrain GradeManagementRefPolicy {
-    subject <Authentication> /student;
-    target <Class> /Course;
-    action updateGrade();
+    subject <Authentication> /guest;
+    target <Class> /CourseRegistration;
+    action createCourseRegistration(), deleteCourseRegistration();
 }
 
 inst auth+ GradeManagementPolicy0{
@@ -43,13 +43,13 @@ inst auth+ courseRegistrationPolicy{
 inst auth+ userManagementPolicy{
     subject <Authentication> /admin;
     target <Class> /User;
-    action motify();
+    action modify();
 }
 
-inst auth- GradeManagementPolicy4{
+inst auth+ CourseRegistrationControllerPolicy{
     subject <Authentication> /admin;
-    target <Class> /Course;
-    action updateGrade();
+    target <Class> /CourseRegistration;
+    action createCourseRegistration(), deleteCourseRegistration();
 }
 
 inst auth+ filter1 {
