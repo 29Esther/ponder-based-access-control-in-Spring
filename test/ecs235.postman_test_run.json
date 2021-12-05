@@ -1,0 +1,1382 @@
+{
+	"id": "adfda094-4c43-4430-8b7f-0d7a790b92c8",
+	"name": "ecs235",
+	"timestamp": "2021-12-05T23:05:20.917Z",
+	"collection_id": "16840946-072bf345-2aa7-45e5-8d65-83ed6720c72d",
+	"folder_id": 0,
+	"environment_id": "f018fd1e-325d-43b5-ae2b-ad0ceb67615c",
+	"totalPass": 44,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "0ace52e5-6a3c-4fc9-9fcf-71f24248be0c",
+			"name": "1. get token",
+			"url": "http://localhost:8083/auth/realms/ecs235/protocol/openid-connect/token",
+			"time": 256,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				256
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "4a7ccc42-baa6-45fb-8748-1084ae09da70",
+			"name": "2.1. create a student",
+			"url": "http://localhost:8081/app/users",
+			"time": 116,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				116
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "16fa7b17-d87c-4f16-9f7b-e5d06d02184d",
+			"name": "2.2. update a student",
+			"url": "http://localhost:8081/app/users/162",
+			"time": 44,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				44
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "c264e764-f7a0-4ad0-924c-f266493537dc",
+			"name": "2.3. delete a student",
+			"url": "http://localhost:8081/app/users/162",
+			"time": 22,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "011b6674-3151-4818-b678-5c56db4c9dd6",
+			"name": "2.4. create a student",
+			"url": "http://localhost:8081/app/users",
+			"time": 42,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				42
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "8369564a-0942-457a-bfd2-cce0bf786368",
+			"name": "2.5. create another student",
+			"url": "http://localhost:8081/app/users",
+			"time": 26,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				26
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "2b43f280-5ee3-4a83-8abf-25283cd6a999",
+			"name": "3.1. create a lecturer",
+			"url": "http://localhost:8081/app/users",
+			"time": 31,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				31
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "021c28e5-2e4b-41e2-b734-f2cf9c88531e",
+			"name": "3.2. update a lecturer",
+			"url": "http://localhost:8081/app/users/165",
+			"time": 29,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				29
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "4d6462ff-8e64-40b1-bca3-cde98b3ca93a",
+			"name": "3.3. delete a lecturer",
+			"url": "http://localhost:8081/app/users/165",
+			"time": 17,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "6bb6e8fc-a502-4a3b-8376-2a8e8871406d",
+			"name": "3.4. create a lecturer",
+			"url": "http://localhost:8081/app/users",
+			"time": 17,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "f97fd54a-c5f4-47d2-8d5a-a0d1511e6426",
+			"name": "4.1. create a course",
+			"url": "http://localhost:8081/app/api/v1/courses",
+			"time": 16,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "2f7af595-f5b9-4b24-be68-5e95ac7139f4",
+			"name": "4.2. update a course",
+			"url": "http://localhost:8081/app/api/v1/courses/167",
+			"time": 10,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "c4283114-db3e-42b4-9e5e-ad35c48a3050",
+			"name": "4.3. delete a course",
+			"url": "http://localhost:8081/app/api/v1/courses/167",
+			"time": 18,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "9b67f4e2-b3c2-430e-b774-835ff6c88f35",
+			"name": "4.4. create a course",
+			"url": "http://localhost:8081/app/api/v1/courses",
+			"time": 20,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				20
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "370593b1-60e5-499d-a9a8-2a7bc84da2ed",
+			"name": "5.1. register a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 11,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "9f282068-861c-49be-9441-595b3e2cf5dc",
+			"name": "1. get token",
+			"url": "http://localhost:8083/auth/realms/ecs235/protocol/openid-connect/token",
+			"time": 254,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				254
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "7b648123-da14-4dd4-a5c4-4e9d5f79861a",
+			"name": "2. register a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 25,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				25
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "11d57483-d198-4c7d-8eb1-2b1478547cac",
+			"name": "3. unregister a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations/169",
+			"time": 22,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "30f43630-cbed-428a-ab27-574a28d3cf53",
+			"name": "4. register a course again",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 23,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				23
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "aabd8ca2-33a4-4492-b745-0da3f92e3b74",
+			"name": "5. update a course grade",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations?studentId=163&courseId=168",
+			"time": 9,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "35425eae-ec25-4436-87cb-bd2a873de2a7",
+			"name": "6. delete a course",
+			"url": "http://localhost:8081/app/api/v1/courses/168",
+			"time": 10,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "2e693b17-8cc6-42e0-82d4-f618ccd19f73",
+			"name": "1. get token",
+			"url": "http://localhost:8083/auth/realms/ecs235/protocol/openid-connect/token",
+			"time": 244,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				244
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "93592a22-e332-40ec-9418-50e38c1cd023",
+			"name": "2. update a course grade",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations?studentId=163&courseId=168",
+			"time": 22,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "203f9608-0eb8-4e8c-9688-ce03315f1e77",
+			"name": "3. update a course",
+			"url": "http://localhost:8081/app/api/v1/courses/168",
+			"time": 11,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "e08c1a26-a443-43b8-8da3-0fd3c0921f0d",
+			"name": "4. update a student",
+			"url": "http://localhost:8081/app/users/163",
+			"time": 17,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "19c20a14-567b-4a48-b740-1a6ebea68c1a",
+			"name": "5. register a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 9,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "0849ec4c-8b5e-414c-bfcb-5d568c26774f",
+			"name": "1. get token",
+			"url": "http://localhost:8083/auth/realms/ecs235/protocol/openid-connect/token",
+			"time": 223,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				223
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "05bb7ccd-fd9b-4d81-a80f-d379a6e838c9",
+			"name": "2. update a course grade",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations?studentId=163&courseId=168",
+			"time": 21,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "f5abc5ab-fdcf-4426-92c2-78adbada59da",
+			"name": "3. register a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 19,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				19
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "890989ee-bc66-44a1-a0f4-13f6a37a7e98",
+			"name": "4. unregister a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations/171",
+			"time": 21,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "326792d0-d53b-49e4-a290-03eeb8cbcce9",
+			"name": "5. create a student",
+			"url": "http://localhost:8081/app/users",
+			"time": 142,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				142
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "54ce4299-10b8-4ee1-83e4-c430649755d3",
+			"name": "6. update a course",
+			"url": "http://localhost:8081/app/api/v1/courses/168",
+			"time": 12,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "d5745ca8-7748-4e71-84d3-d9f204d4652b",
+			"name": "1. get token",
+			"url": "http://localhost:8083/auth/realms/ecs235/protocol/openid-connect/token",
+			"time": 235,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				235
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "a20d42b3-8d84-45e2-96ed-a267db265e57",
+			"name": "2.1.  register a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 12,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "63455cb6-8daf-4040-b68f-6857be47630a",
+			"name": "2.2. update a course grade",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations?studentId=163&courseId=168",
+			"time": 9,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "64cb4867-c832-4349-845e-062ee2aefd99",
+			"name": "2.3. update a course",
+			"url": "http://localhost:8081/app/api/v1/courses/168",
+			"time": 61,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				61
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "53e13818-1a89-40e0-8417-aa13027e346c",
+			"name": "3.1. register a course without token",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations",
+			"time": 5,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "792b35ae-b33b-4e02-8e7c-14799e6a537a",
+			"name": "3.2. update a course grade without token",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations?studentId=163&courseId=168",
+			"time": 4,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "15d72c17-1f06-4246-a36d-2a55a2246beb",
+			"name": "3.3. update a course without token",
+			"url": "http://localhost:8081/app/api/v1/courses/168",
+			"time": 5,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "304609ad-7ff2-44ca-9dca-e53c25809bbe",
+			"name": "1. unregister a course",
+			"url": "http://localhost:8081/app/api/v1/courseRegistrations/170",
+			"time": 71,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				71
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "505c62b2-b38e-4b6d-b92a-f506751fe947",
+			"name": "2. delete a student",
+			"url": "http://localhost:8081/app/users/163",
+			"time": 17,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "9f63a7a7-42f8-4e43-a8f2-1c6e3f0cba2a",
+			"name": "3. delete another student",
+			"url": "http://localhost:8081/app/users/164",
+			"time": 18,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "46b22ccc-cc39-4f43-9327-1ffd16427330",
+			"name": "4. delete a course",
+			"url": "http://localhost:8081/app/api/v1/courses/168",
+			"time": 8,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "603755e4-40ff-45ee-8871-5a550ee8c876",
+			"name": "5. delete a lecturer",
+			"url": "http://localhost:8081/app/users/166",
+			"time": 18,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2222,
+	"collection": {
+		"requests": [
+			{
+				"id": "0ace52e5-6a3c-4fc9-9fcf-71f24248be0c",
+				"method": "POST"
+			},
+			{
+				"id": "4a7ccc42-baa6-45fb-8748-1084ae09da70",
+				"method": "POST"
+			},
+			{
+				"id": "16fa7b17-d87c-4f16-9f7b-e5d06d02184d",
+				"method": "PUT"
+			},
+			{
+				"id": "c264e764-f7a0-4ad0-924c-f266493537dc",
+				"method": "DELETE"
+			},
+			{
+				"id": "011b6674-3151-4818-b678-5c56db4c9dd6",
+				"method": "POST"
+			},
+			{
+				"id": "8369564a-0942-457a-bfd2-cce0bf786368",
+				"method": "POST"
+			},
+			{
+				"id": "2b43f280-5ee3-4a83-8abf-25283cd6a999",
+				"method": "POST"
+			},
+			{
+				"id": "021c28e5-2e4b-41e2-b734-f2cf9c88531e",
+				"method": "PUT"
+			},
+			{
+				"id": "4d6462ff-8e64-40b1-bca3-cde98b3ca93a",
+				"method": "DELETE"
+			},
+			{
+				"id": "6bb6e8fc-a502-4a3b-8376-2a8e8871406d",
+				"method": "POST"
+			},
+			{
+				"id": "f97fd54a-c5f4-47d2-8d5a-a0d1511e6426",
+				"method": "POST"
+			},
+			{
+				"id": "2f7af595-f5b9-4b24-be68-5e95ac7139f4",
+				"method": "PUT"
+			},
+			{
+				"id": "c4283114-db3e-42b4-9e5e-ad35c48a3050",
+				"method": "DELETE"
+			},
+			{
+				"id": "9b67f4e2-b3c2-430e-b774-835ff6c88f35",
+				"method": "POST"
+			},
+			{
+				"id": "370593b1-60e5-499d-a9a8-2a7bc84da2ed",
+				"method": "POST"
+			},
+			{
+				"id": "9f282068-861c-49be-9441-595b3e2cf5dc",
+				"method": "POST"
+			},
+			{
+				"id": "7b648123-da14-4dd4-a5c4-4e9d5f79861a",
+				"method": "POST"
+			},
+			{
+				"id": "11d57483-d198-4c7d-8eb1-2b1478547cac",
+				"method": "DELETE"
+			},
+			{
+				"id": "30f43630-cbed-428a-ab27-574a28d3cf53",
+				"method": "POST"
+			},
+			{
+				"id": "aabd8ca2-33a4-4492-b745-0da3f92e3b74",
+				"method": "PUT"
+			},
+			{
+				"id": "35425eae-ec25-4436-87cb-bd2a873de2a7",
+				"method": "DELETE"
+			},
+			{
+				"id": "2e693b17-8cc6-42e0-82d4-f618ccd19f73",
+				"method": "POST"
+			},
+			{
+				"id": "93592a22-e332-40ec-9418-50e38c1cd023",
+				"method": "PUT"
+			},
+			{
+				"id": "203f9608-0eb8-4e8c-9688-ce03315f1e77",
+				"method": "PUT"
+			},
+			{
+				"id": "e08c1a26-a443-43b8-8da3-0fd3c0921f0d",
+				"method": "PUT"
+			},
+			{
+				"id": "19c20a14-567b-4a48-b740-1a6ebea68c1a",
+				"method": "POST"
+			},
+			{
+				"id": "0849ec4c-8b5e-414c-bfcb-5d568c26774f",
+				"method": "POST"
+			},
+			{
+				"id": "05bb7ccd-fd9b-4d81-a80f-d379a6e838c9",
+				"method": "PUT"
+			},
+			{
+				"id": "f5abc5ab-fdcf-4426-92c2-78adbada59da",
+				"method": "POST"
+			},
+			{
+				"id": "890989ee-bc66-44a1-a0f4-13f6a37a7e98",
+				"method": "DELETE"
+			},
+			{
+				"id": "326792d0-d53b-49e4-a290-03eeb8cbcce9",
+				"method": "POST"
+			},
+			{
+				"id": "54ce4299-10b8-4ee1-83e4-c430649755d3",
+				"method": "PUT"
+			},
+			{
+				"id": "d5745ca8-7748-4e71-84d3-d9f204d4652b",
+				"method": "POST"
+			},
+			{
+				"id": "a20d42b3-8d84-45e2-96ed-a267db265e57",
+				"method": "POST"
+			},
+			{
+				"id": "63455cb6-8daf-4040-b68f-6857be47630a",
+				"method": "PUT"
+			},
+			{
+				"id": "64cb4867-c832-4349-845e-062ee2aefd99",
+				"method": "PUT"
+			},
+			{
+				"id": "53e13818-1a89-40e0-8417-aa13027e346c",
+				"method": "POST"
+			},
+			{
+				"id": "792b35ae-b33b-4e02-8e7c-14799e6a537a",
+				"method": "PUT"
+			},
+			{
+				"id": "15d72c17-1f06-4246-a36d-2a55a2246beb",
+				"method": "PUT"
+			},
+			{
+				"id": "304609ad-7ff2-44ca-9dca-e53c25809bbe",
+				"method": "DELETE"
+			},
+			{
+				"id": "505c62b2-b38e-4b6d-b92a-f506751fe947",
+				"method": "DELETE"
+			},
+			{
+				"id": "9f63a7a7-42f8-4e43-a8f2-1c6e3f0cba2a",
+				"method": "DELETE"
+			},
+			{
+				"id": "46b22ccc-cc39-4f43-9327-1ffd16427330",
+				"method": "DELETE"
+			},
+			{
+				"id": "603755e4-40ff-45ee-8871-5a550ee8c876",
+				"method": "DELETE"
+			}
+		]
+	}
+}

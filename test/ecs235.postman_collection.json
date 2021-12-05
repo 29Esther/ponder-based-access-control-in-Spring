@@ -66,7 +66,7 @@
 					"response": []
 				},
 				{
-					"name": "2. create a student",
+					"name": "2.1. create a student",
 					"event": [
 						{
 							"listen": "test",
@@ -107,7 +107,122 @@
 					"response": []
 				},
 				{
-					"name": "2.2 create another student",
+					"name": "2.2. update a student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"student300\",\n  \"firstName\": \"Student\",\n  \"lastName\": \"Three hundrd\",\n  \"age\": 28,\n  \"email\": \"s300@ecs235.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/users/{{student_id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "2.3. delete a student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"student300\",\n  \"firstName\": \"Student\",\n  \"lastName\": \"Three hundrd\",\n  \"age\": 28,\n  \"email\": \"s300@ecs235.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/users/{{student_id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "2.4. create a student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"var a = jsonData._links.self.href.split(\"/\");",
+									"pm.globals.set(\"student_id\", a[a.length - 1]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"student300\",\n  \"firstName\": \"Student\",\n  \"lastName\": \"Three hundrd\",\n  \"age\": 18,\n  \"email\": \"s300@ecs235.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/users"
+					},
+					"response": []
+				},
+				{
+					"name": "2.5. create another student",
 					"event": [
 						{
 							"listen": "test",
@@ -148,44 +263,7 @@
 					"response": []
 				},
 				{
-					"name": "3. update a student",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{admin_jwt}}"
-							}
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"userName\": \"student300\",\n  \"firstName\": \"Student\",\n  \"lastName\": \"Three hundrd\",\n  \"age\": 28,\n  \"email\": \"s300@ecs235.edu\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8081/app/users/{{student_id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "4. create a lecturer",
+					"name": "3.1. create a lecturer",
 					"event": [
 						{
 							"listen": "test",
@@ -226,7 +304,7 @@
 					"response": []
 				},
 				{
-					"name": "5. update a lecturer",
+					"name": "3.2. update a lecturer",
 					"event": [
 						{
 							"listen": "test",
@@ -263,7 +341,85 @@
 					"response": []
 				},
 				{
-					"name": "6. create a course",
+					"name": "3.3. delete a lecturer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"lecturer100\",\n  \"firstName\": \"Lecturer\",\n  \"lastName\": \"One hundrd\",\n  \"age\": 68,\n  \"email\": \"l100@ecs235.edu.lec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/users/{{lecturer_id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "3.4. create a lecturer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"var a = jsonData._links.self.href.split(\"/\");",
+									"pm.globals.set(\"lecturer_id\", a[a.length - 1]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"lecturer100\",\n  \"firstName\": \"Lecturer\",\n  \"lastName\": \"One hundrd\",\n  \"age\": 68,\n  \"email\": \"l100@ecs235.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/users"
+					},
+					"response": []
+				},
+				{
+					"name": "4.1. create a course",
 					"event": [
 						{
 							"listen": "test",
@@ -303,7 +459,7 @@
 					"response": []
 				},
 				{
-					"name": "7. update a course",
+					"name": "4.2. update a course",
 					"event": [
 						{
 							"listen": "test",
@@ -340,7 +496,84 @@
 					"response": []
 				},
 				{
-					"name": "8. register a course",
+					"name": "4.3. delete a course",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ecs235\",\n  \"level\": 2,\n  \"lecturerId\":{{lecturer_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/api/v1/courses/{{course_id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "4.4. create a course",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"course_id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{admin_jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ecs235\",\n  \"level\": 2,\n  \"lecturerId\":{{lecturer_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/api/v1/courses"
+					},
+					"response": []
+				},
+				{
+					"name": "5.1. register a course",
 					"event": [
 						{
 							"listen": "test",
@@ -838,6 +1071,43 @@
 						"url": "http://localhost:8081/app/users/{{student_id}}"
 					},
 					"response": []
+				},
+				{
+					"name": "5. register a course",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{lec_jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentId\": {{student_id}},\n  \"courseId\": {{course_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/api/v1/courseRegistrations"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1168,7 +1438,7 @@
 					"response": []
 				},
 				{
-					"name": "2. register a course",
+					"name": "2.1.  register a course",
 					"event": [
 						{
 							"listen": "test",
@@ -1205,7 +1475,104 @@
 					"response": []
 				},
 				{
-					"name": "3. register a course without token",
+					"name": "2.2. update a course grade",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{guest_jwt}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"grade\":\"80\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/app/api/v1/courseRegistrations?studentId={{student_id}}&courseId={{course_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"courseRegistrations"
+							],
+							"query": [
+								{
+									"key": "studentId",
+									"value": "{{student_id}}"
+								},
+								{
+									"key": "courseId",
+									"value": "{{course_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3. update a course",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{guest_jwt}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ecs235\",\n  \"level\": 2,\n  \"lecturerId\":{{lecturer_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/api/v1/courses/{{course_id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "3.1. register a course without token",
 					"event": [
 						{
 							"listen": "test",
@@ -1235,6 +1602,97 @@
 							}
 						},
 						"url": "http://localhost:8081/app/api/v1/courseRegistrations"
+					},
+					"response": []
+				},
+				{
+					"name": "3.2. update a course grade without token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"grade\":\"80\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/app/api/v1/courseRegistrations?studentId={{student_id}}&courseId={{course_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"app",
+								"api",
+								"v1",
+								"courseRegistrations"
+							],
+							"query": [
+								{
+									"key": "studentId",
+									"value": "{{student_id}}"
+								},
+								{
+									"key": "courseId",
+									"value": "{{course_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.3. update a course without token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ecs235\",\n  \"level\": 2,\n  \"lecturerId\":{{lecturer_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/app/api/v1/courses/{{course_id}}"
 					},
 					"response": []
 				}

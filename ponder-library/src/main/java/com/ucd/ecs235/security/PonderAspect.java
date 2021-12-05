@@ -16,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,12 +59,15 @@ public class PonderAspect {
             throw new UnauthorizedException();
         }
         Jwt jwt = (Jwt) authentication.getPrincipal();
+        if (StringUtils.isEmpty(jwt.getClaimAsString("resource_access"))) {
+            throw new UnauthorizedException("You do not have any roles.");
+        }
         Map<String, Map<String, List<String>>> map = objectMapper.readValue(jwt.getClaimAsString("resource_access"), Map.class);
         List<String> roles = map.get(clientId).get("roles");
         logger.info("You are [{}] with e-mail address [{}].\n roles: [{}]",
                 jwt.getSubject(), jwt.getClaimAsString("email"), Arrays.toString(roles.stream().toArray()));
         if (!defaultService.checkPermission(className, methodName, roles)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("You lack necessary roles for this action.");
         }
         ;
     }
