@@ -11,6 +11,5 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ApiServiceException.class)
     public ResponseEntity<ApiServiceException> handleApiServiceException(ApiServiceException ex) {
         return new ResponseEntity<>(ex, ex.getHttpStatus());
-
     }
 }

@@ -6,16 +6,16 @@ import com.ucd.ecs235.client.controller.dto.GradeCommand;
 import com.ucd.ecs235.client.domain.Course;
 import com.ucd.ecs235.client.domain.CourseRegistration;
 import com.ucd.ecs235.client.service.CourseRegistrationService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("api/v1/")
 public class CourseRegistrationController {
 
-    private CourseRegistrationService courseRegistrationsService;
+    private final CourseRegistrationService courseRegistrationsService;
 
     @PostMapping("/courses")
     @ResponseStatus(HttpStatus.CREATED)

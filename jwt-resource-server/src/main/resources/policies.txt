@@ -1,60 +1,60 @@
 inst refrain GradeManagementRefPolicy {
     subject <Authentication> /guest;
-    target <Class> /CourseRegistration;
-    action createCourseRegistration(), deleteCourseRegistration();
+    target <Class> /CourseRegistrationService;
+    action createCourseRegistration();
 }
 
 inst auth+ GradeManagementPolicy0{
     subject <Authentication> /lec;
-    target <Class> /Course;
+    target <Class> /CourseRegistrationService;
     action updateGrade();
 }
 
 inst auth+ GradeManagementPolicy1{
     subject <Authentication> /ta;
-    target <Class> /Course;
-    action updateGrade();
-}
-
-inst auth+ GradeManagementPolicy2{
-    subject <Authentication> /student;
-    target <Class> /Course;
+    target <Class> /CourseRegistrationService;
     action updateGrade();
 }
 
 inst auth+ GradeManagementPolicy3{
     subject <Authentication> /admin;
-    target <Class> /Course;
+    target <Class> /CourseRegistrationService;
     action updateGrade();
 }
 
 inst auth+ courseManagementPolicy{
     subject <Authentication> /admin;
-    target <Class> /Course;
+    target <Class> /CourseRegistrationService;
     action createCourse(), updateCourse(), deleteCourse();
 }
 
 inst auth+ courseRegistrationPolicy{
     subject <Authentication> /student;
-    target <Class> /CourseRegistration;
+    target <Class> /CourseRegistrationService;
     action createCourseRegistration(), deleteCourseRegistration();
 }
 
 inst auth+ userManagementPolicy{
     subject <Authentication> /admin;
-    target <Class> /User;
+    target <Class> /UserEventHandler;
     action modify();
 }
 
-inst auth+ CourseRegistrationControllerPolicy{
+inst auth- GradeManagementPolicy4{
     subject <Authentication> /admin;
-    target <Class> /CourseRegistration;
+    target <Class> /CourseRegistrationService;
+    action updateGrade();
+}
+
+inst auth+ courseRegistrationPolicy{
+    subject <Authentication> /student;
+    target <Class> /CourseRegistrationController;
     action createCourseRegistration(), deleteCourseRegistration();
 }
 
 inst auth+ filter1 {
     subject <Authentication> /lec;
-    target <Class> /Course;
+    target <Class> /CourseRegistrationService;
     action VideoConf(BW, Priority)
     { in BW=2 ; in Priority=3 ;}
     if (inUCDavis()) {in BW=3; in Priority = 1;}

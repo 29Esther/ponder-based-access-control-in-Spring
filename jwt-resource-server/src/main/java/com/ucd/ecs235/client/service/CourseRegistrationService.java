@@ -11,7 +11,7 @@ import com.ucd.ecs235.client.repo.CourseRegistrationRepo;
 import com.ucd.ecs235.client.repo.CourseRepo;
 import com.ucd.ecs235.client.repo.UserRepo;
 import com.ucd.ecs235.security.EnablePonderCheck;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,13 +19,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnablePonderCheck
 public class CourseRegistrationService {
 
-    private CourseRegistrationRepo crRepo;
-    private CourseRepo courseRepo;
-    private UserRepo userRepo;
+    private final CourseRegistrationRepo crRepo;
+    private final CourseRepo courseRepo;
+    private final UserRepo userRepo;
 
     @Transactional
     public Course createCourse(CourseCommand courseCommand) {

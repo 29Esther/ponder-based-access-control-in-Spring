@@ -8,6 +8,11 @@ import com.ucd.ecs235.dto.ActionFilter;
 import com.ucd.ecs235.dto.AuthPolicy;
 import com.ucd.ecs235.dto.RefrainPolicy;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +22,8 @@ import java.util.Map;
 public class Ponder/*@bgen(jjtree)*/implements PonderTreeConstants, PonderConstants {/*@bgen(jjtree)*/
   protected static JJTPonderState jjtree = new JJTPonderState();
     static Map<String, List<String>> functionToScopeMap = new HashMap<>();
+    static Map<String, List<String>> reftainFunctionToScopeMap = new HashMap<>();
+    static String outputFileName = "./output.txt";
 
     /** Main entry point. */
   public static void main(String args[]) throws FileNotFoundException, UnsupportedEncodingException {
@@ -25,11 +32,13 @@ public class Ponder/*@bgen(jjtree)*/implements PonderTreeConstants, PonderConsta
     //    Ponder t = new Ponder(System.in);
           Ponder t = new Ponder(reader);
     try {
+        FileWriter fw = new FileWriter(outputFileName,false);
+        fw.close();
       SimpleNode n = t.Start();
-      n.dump("");
+      n.dump("", outputFileName);
 //      policyTestPrint();
         processAccessControlMap();
-        printFunctionToScopeMap();
+        outputMap();
     } catch (Exception e) {
       System.out.println("Oops.");
       System.out.println(e.getMessage());
@@ -85,28 +94,30 @@ public class Ponder/*@bgen(jjtree)*/implements PonderTreeConstants, PonderConsta
   }
 
     public static void processAccessControlMap(){
-      ArrayList<ActionFilter> actionFilters = SimpleNode.afList;
-      ArrayList<AuthPolicy> authPolicies = SimpleNode.apList;
-      ArrayList<RefrainPolicy> refrainPolicies = SimpleNode.rpList;
+        functionToScopeMap.clear();
+        reftainFunctionToScopeMap.clear();
+        List<AuthPolicy> authPolicies = Ponder.getAuthPolicies();
+        List<ActionFilter> actionFilters = Ponder.getActionFilters();
+        List<RefrainPolicy> refrainPolicies = Ponder.getRefrainPolicies();
         authPolicies.forEach(authPolicy -> {
             List<String> actionList = authPolicy.getAction();
             String subjectType = authPolicy.getSubjectType();
             subjectType = subjectType.replace("<", "").replace(">", "");
             String subjectDomain = authPolicy.getSubjectDomain();
             String[] subjectDomainSeq = subjectDomain.split("/");
-            subjectDomain = subjectDomainSeq[subjectDomainSeq.length-1];
+            subjectDomain = subjectDomainSeq[subjectDomainSeq.length - 1];
             String targetType = authPolicy.getTargetType();
             targetType = targetType.replace("<", "").replace(">", "");
             String targetDomain = authPolicy.getTargetDomain();
             String[] targetDomainSeq = targetDomain.split("/");
-            targetDomain = targetDomainSeq[targetDomainSeq.length-1];
+            targetDomain = targetDomainSeq[targetDomainSeq.length - 1];
 
-            if(targetType.equals("Class")){
-                for(String action:actionList){
+            if (targetType.equals("Class")) {
+                for (String action : actionList) {
                     action = action.replace("(", "").replace(")", "");
-                    String key = targetDomain+"#_#"+action;
-                    if(subjectType.equals("Authentication")) {
-                        if(authPolicy.isAuthPlus()) {
+                    String key = targetDomain + "#_#" + action;
+                    if (subjectType.equals("Authentication")) {
+                        if (authPolicy.isAuthPlus()) {
                             if (functionToScopeMap.containsKey(key)) {
                                 functionToScopeMap.get(key).add(subjectDomain);
                             } else {
@@ -114,9 +125,9 @@ public class Ponder/*@bgen(jjtree)*/implements PonderTreeConstants, PonderConsta
                                 subjects.add(subjectDomain);
                                 functionToScopeMap.put(key, subjects);
                             }
-                        }else {
-                            if(functionToScopeMap.containsKey(key)){
-                                if(functionToScopeMap.get(key).contains(subjectDomain)){
+                        } else {
+                            if (functionToScopeMap.containsKey(key)) {
+                                if (functionToScopeMap.get(key).contains(subjectDomain)) {
                                     functionToScopeMap.get(key).remove(subjectDomain);
                                 }
                             }
@@ -125,60 +136,87 @@ public class Ponder/*@bgen(jjtree)*/implements PonderTreeConstants, PonderConsta
                 }
             }
         });
-
         refrainPolicies.forEach(refrainPolicy -> {
-            String action= refrainPolicy.getAction();
+            String action = refrainPolicy.getAction();
             action = action.replace("(", "").replace(")", "");
             String subjectType = refrainPolicy.getSubjectType();
             subjectType = subjectType.replace("<", "").replace(">", "");
             String subjectDomain = refrainPolicy.getSubjectDomain();
             String[] subjectDomainSeq = subjectDomain.split("/");
-            subjectDomain = subjectDomainSeq[subjectDomainSeq.length-1];
+            subjectDomain = subjectDomainSeq[subjectDomainSeq.length - 1];
             String targetType = refrainPolicy.getTargetType();
             targetType = targetType.replace("<", "").replace(">", "");
             String targetDomain = refrainPolicy.getTargetDomain();
             String[] targetDomainSeq = targetDomain.split("/");
-            targetDomain = targetDomainSeq[targetDomainSeq.length-1];
+            targetDomain = targetDomainSeq[targetDomainSeq.length - 1];
 
-            if(targetType.equals("Class")){
-                String key = targetDomain+"#_#"+action;
-                if(subjectType.equals("Authentication")) {
-                    if(functionToScopeMap.containsKey(key)){
-                        if(functionToScopeMap.get(key).contains(subjectDomain)){
-                            functionToScopeMap.get(key).remove(subjectDomain);
-                        }
+            if (targetType.equals("Class")) {
+                String key = targetDomain + "#_#" + action;
+                if (subjectType.equals("Authentication")) {
+                    if (reftainFunctionToScopeMap.containsKey(key)) {
+                        reftainFunctionToScopeMap.get(key).add(subjectDomain);
+                    } else {
+                        ArrayList<String> subjects = new ArrayList<>();
+                        subjects.add(subjectDomain);
+                        reftainFunctionToScopeMap.put(key, subjects);
                     }
                 }
             }
         });
     }
 
-    public static void printFunctionToScopeMap(){
-      System.out.println();
-      System.out.println("Map:");
-        for(String key:functionToScopeMap.keySet()){
-            System.out.print("{"+key+": ");
-            List<String> list = functionToScopeMap.get(key);
-            System.out.print("[");
-            for (String scope: list) {
-                if(list.indexOf(scope)==list.size()-1){
-                    System.out.print(scope);
-                }else {
-                    System.out.print(scope + ",");
+    public static void outputMap(){
+        try {
+            OutputStream fop = new FileOutputStream(outputFileName, true);
+            OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
+            writer.append("Authorization Map: \n");
+            for(String key:functionToScopeMap.keySet()){
+                writer.append("{"+key+": ");
+                List<String> list = functionToScopeMap.get(key);
+                writer.append("[");
+                for (String scope: list) {
+                    if(list.indexOf(scope)==list.size()-1){
+                        writer.append(scope);
+                    }else {
+                        writer.append(scope + ",");
+                    }
                 }
+                writer.append("]}\n");
             }
-            System.out.println("]}");
+            writer.append("Refrain Map: \n");
+            for(String key:reftainFunctionToScopeMap.keySet()){
+                writer.append("{"+key+": ");
+                List<String> list = reftainFunctionToScopeMap.get(key);
+                writer.append("[");
+                for (String scope: list) {
+                    if(list.indexOf(scope)==list.size()-1){
+                        writer.append(scope);
+                    }else {
+                        writer.append(scope + ",");
+                    }
+                }
+                writer.append("]}\n");
+            }
+            writer.close();
+            fop.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-  public static void compile() throws FileNotFoundException, UnsupportedEncodingException {
+
+  public static void compile(String fileName) throws IOException {
         System.out.println("Reading from config file...");
-        Reader reader = new InputStreamReader(new FileInputStream("policies.txt"), "UTF-8");
-        //    Ponder t = new Ponder(System.in);
-        Ponder t = new Ponder(reader);
+        Resource resource = new ClassPathResource(fileName);
+        InputStream input = resource.getInputStream();
+
+//            Ponder t = new Ponder(System.in);
+        Ponder t = new Ponder(input);
         try {
+            FileWriter fw = new FileWriter(outputFileName,false);
+            fw.close();
             SimpleNode n = t.Start();
-            n.dump("");
+            n.dump("", outputFileName);
         } catch (Exception e) {
             System.out.println("Oops.");
             System.out.println(e.getMessage());
