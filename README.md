@@ -1,4 +1,4 @@
-# A quarter project
+# A Ponder based Access Control in Spring Framework
 Spring Boot + Spring Security + Ponder + Keycloak
 
 ### Components
